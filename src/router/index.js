@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import main from '@/components/Main'
-import learn from '@/components/Learn'
-import HelloWorld from '@/components/HelloWorld'
-import About from '@/components/About'
-import busLabel from '@/components/BusLabel'
-import hello from '@/components/Hello'
+import main from '../components/Main'
+// import learn from './src/components/Learn'
+// import HelloWorld from '@/components/HelloWorld'
+// import About from '@/components/About'
+// import busLabel from '@/components/BusLabel'
+// import hello from '@/components/Hello'
 
 Vue.use(Router)
 

@@ -4,7 +4,6 @@
       <span>亲，您的浏览器不支持canvas，换个浏览器试试吧！</span>
     </canvas>
     <canvas width="500" height="500" id="canvas-2" >
-      <span>亲，您的浏览器不支持canvas，换个浏览器试试吧！</span>
     </canvas>
     <Button v-on:click="undoDraw">撤销</Button>
   </div>

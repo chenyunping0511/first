@@ -6,6 +6,7 @@ import router from './router'
 import iView from 'iview';
 import locale from 'iview/dist/locale/en-US';
 import 'iview/dist/styles/iview.css'
+import 'lib-flexible'
 
 Vue.config.productionTip = false
 

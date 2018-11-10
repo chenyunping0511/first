@@ -65,19 +65,7 @@
       }
     }
   }
-  export default {
-    name: 'hakaPicture',
-    data () {
-      return {
-      }
-    },
-    methods:{
-      undoDraw: function () {
-        canvasFront.undo()
-      }
-    }
-  }
-  window.onload= function(){
+  var InitCanvas = function () {
     canvasBackOri= document.getElementById('canvas-1');
     canvasFrontOri= document.getElementById('canvas-2');
     canvasFront = new WrappedCanvas(canvasFrontOri)
@@ -88,8 +76,6 @@
     img.onload = function(){
       canvasBack.drawImage(img,0,0)
     };
-
-
     canvasFrontOri.onmousedown = function(evDown){
       evDown=evDown || window.event;
       startX=evDown.clientX-canvasFrontOri.offsetLeft
@@ -103,9 +89,26 @@
         document.onmousemove = null;
         document.onmouseup = null;
       };
-
     }
   }
+  export default {
+    name: 'hakaPicture',
+    data () {
+      return {
+      }
+    },
+    methods:{
+      undoDraw: function () {
+        canvasFront.undo()
+      }
+    },
+    mounted:function () {
+      InitCanvas()
+    }
+  }
+
+
+
 </script>
 
 <style scoped>

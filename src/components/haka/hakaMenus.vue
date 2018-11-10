@@ -1,7 +1,11 @@
 <template>
     <div>
       <Menu mode="horizontal" active-name="1">
-        <MenuItem name="1">
+        <MenuItem to="/"  name="main">
+          <Icon type="ios-infinite" size="20" />
+          主页
+        </MenuItem>
+        <MenuItem to="/customPicture"  name="label">
           <Icon type="ios-brush-outline" size="20" />
           数据标注
         </MenuItem>
@@ -34,7 +38,13 @@
 
 <script>
   export default {
-    name: 'hakaMenus'
+    name: 'hakaMenus',
+    props:['mod'],
+    methods:{
+      toLabel: function () {
+        props.mod="custom"
+      }
+    }
   }
 </script>
 

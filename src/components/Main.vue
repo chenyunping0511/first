@@ -3,9 +3,7 @@
     <img src="../assets/head.png"><br/>
     <br/>
     <haka-menus></haka-menus>
-    <div v-if="flag">1234adasfawefweafawe5</div>
-    <haka-selectors></haka-selectors>
-    <haka-picture></haka-picture>
+      <haka-card></haka-card>
   </div>
 </template>
 
@@ -13,9 +11,10 @@
     import HakaMenus from './haka/hakaMenus'
     import HakaSelectors from './haka/hakaSelectors'
     import HakaPicture from './haka/hakaPicture'
+    import HakaCard from './haka/hakaCard'
     export default {
         name: "Main",
-        components: {HakaPicture, HakaSelectors, HakaMenus},
+        components: {HakaCard, HakaPicture, HakaSelectors, HakaMenus},
         data () {
           return {
             items: [
@@ -23,7 +22,8 @@
               { message: 'Bar' }
             ],
             input1:'default',
-            flag:true
+            flag:true,
+            mod:"custom"
           }
         },
         methods:{

@@ -1,45 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import main from '../components/Main'
-// import learn from './src/components/Learn'
-import HelloWorld from '@/components/HelloWorld'
-// import About from '@/components/About'
-// import busLabel from '@/components/BusLabel'
-// import hello from '@/components/Hello'
+import customPicture from '../components/pages/CustomPicture'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'HelloWorld',
-    //   component: HelloWorld
-    // },
-    // {
-    //   path: '/',
-    //   name: 'test',
-    //   component: About
-    // },
-    // {
-    //   path: '/',
-    //   name: 'busLabel',
-    //   component: busLabel
-    // },
-    // {
-    //   path: '/',
-    //   name: 'busLabel',
-    //   component: hello
-    // }
-    // {
-    //   path: '/',
-    //   name: 'main',
-    //   component: main
-    // }
     {
       path: '/',
       name: 'main',
       component: main
+    },
+    {
+      path: '/customPicture',
+      name: 'customPicture',
+      component: customPicture
     }
   ]
 })

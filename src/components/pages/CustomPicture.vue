@@ -1,7 +1,5 @@
 <template>
   <div>
-    <img src="../../assets/head.png"><br/>
-    <br/>
     <haka-menus></haka-menus>
     <haka-selectors></haka-selectors>
     <haka-picture></haka-picture>

@@ -35,6 +35,7 @@
   var preColor="rgba(255,0,0,0.5)"
   var widthZoom
   var heightZoom
+  var imgSrc = require('/home/smart/17.1-03.jpg')
   class WrappedCanvas {
     constructor (canvas,pre=false) {
       this.pre=pre
@@ -145,7 +146,9 @@
     canvasPreview = new WrappedCanvas(canvasPreviewOri,true)
     canvasFront.ctx.strokeStyle="red";
     var img = new Image();
-    img.src='http://i1.bvimg.com/667520/ffc49fc95b68fb3e.jpg'
+    // img.src='http://i1.bvimg.com/667520/ffc49fc95b68fb3e.jpg'
+    // img.src='/home/smart/17.1-03.jpg'
+    img.src=imgSrc
     img.onload = function(){
           widthZoom=img.width/800
           heightZoom=img.height/800

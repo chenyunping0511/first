@@ -8,6 +8,7 @@
     <canvas width="800" height="800" id="canvas-3" >
     </canvas>
     <haka-commit-cards @changeCommitInPicture="changeCommitFinal" id="commit" :commits="commits"></haka-commit-cards>
+    <button id="button-load" v-on:click="finish">完成</button>
     <textarea v-model="textC" id="commit-input" v-on:input="OnInput" />
   </div>
 </template>
@@ -32,6 +33,8 @@
   var canvasPreview
   var sqColor="red"
   var preColor="rgba(255,0,0,0.5)"
+  var widthZoom
+  var heightZoom
   class WrappedCanvas {
     constructor (canvas,pre=false) {
       this.pre=pre
@@ -142,9 +145,11 @@
     canvasPreview = new WrappedCanvas(canvasPreviewOri,true)
     canvasFront.ctx.strokeStyle="red";
     var img = new Image();
-    img.src='http://i2.bvimg.com/667520/cc1d94afddff082d.jpg'
+    img.src='http://i1.bvimg.com/667520/ffc49fc95b68fb3e.jpg'
     img.onload = function(){
-      canvasBack.drawImage(img,0,0)
+          widthZoom=img.width/800
+          heightZoom=img.height/800
+      canvasBack.drawImage(img,0,0,800,800)
     };
     canvasPreviewOri.onmousedown = function(evDown){
       downing=true
@@ -177,12 +182,14 @@
         canvasFront.drawSquareWithMemory(startX,startY,endX,endY,sqCount,sqColor)
         document.onmousemove = null;
         document.onmouseup = null;
-        let data = {
-          "startX": startX,
-          "startY":startY,
-          "endX":endX,
-          "endY":endY,
-        };
+      myVue.positions.push({
+        "cid": sqCount,
+        "top": Math.min(startY,endY),
+        "left":  Math.min(startX,endX),
+        "width": Math.abs(startX-endX),
+      "height" : Math.abs(endY-startY)
+      })
+      console.log("push position")
         commitInput.style.display=""
         commitInput.style.position = "absolute";//设置绝对定位（或者相对定位）
         commitInput.style.left = Math.min(evUp.clientX,evDown.clientX)+"px";//设置left数值
@@ -208,6 +215,8 @@
           //   "cid":2
           // },
         ],
+        positions:[],
+        zooms:[],
         needInput:true,
         textC:"",
       }
@@ -225,19 +234,29 @@
         console.log(this.commits)
       },
       OnInput: function (event) {
-        if (this.commits.length<sqCount){
+        if (this.commits.length < sqCount) {
           this.commits.push({
-            "cid":sqCount,
-            "text":event.target.value,
+            "cid": sqCount,
+            "text": event.target.value,
           })
           console.log("push")
           console.log(this.commits)
-        }else{
-          this.commits[sqCount-1].text=event.target.value
+        } else {
+          this.commits[sqCount - 1].text = event.target.value
           console.log("change")
           console.log(this.commits)
         }
-  }
+      },
+      finish: function () {
+        var retStr="<?xml version=\"1.0\"?>\n" +
+          "-<root company=\"\" pagetype=\"\" zoom=\"1\">\n"
+        for (var i =0 ;i <this.commits.length;i++){
+            retStr+="<rect type=\"\" text=\""+this.commits[i].text+"\" w=\""+this.positions[i].width*widthZoom+"\" h=\""+this.positions[i].height*heightZoom+"\" y=\""+this.positions[i].top*heightZoom+"\" x=\""+this.positions[i].left*widthZoom+"\"/>\n"
+        }
+        retStr+="</root>"
+        console.log(retStr)
+        console.log(widthZoom,heightZoom)
+      }
     },
     mounted:function () {
       InitCanvas()
@@ -284,6 +303,12 @@
     top: 300px;
     margin: 20px;
   }
+  /*#button-load{*/
+    /*position: absolute;*/
+    /*left: 1010px;*/
+    /*top: 200px;*/
+    /*margin: 20px;*/
+  /*}*/
   canvas::selection { background: rgba(0,0,0,0); color: rgba(0,0,0,0); }
   textarea{
     border:0;

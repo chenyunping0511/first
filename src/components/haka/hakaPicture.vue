@@ -35,7 +35,7 @@
   var preColor="rgba(255,0,0,0.5)"
   var widthZoom
   var heightZoom
-  // var imgSrc = require('/home/smart/17.1-03.jpg')
+  // var imgSrc = require('C:/17.1-03.jpg')
   var imgSrc = require('/home/smart/17.1-03.jpg')
   class WrappedCanvas {
     constructor (canvas,pre=false) {

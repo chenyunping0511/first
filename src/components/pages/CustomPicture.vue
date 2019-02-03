@@ -1,7 +1,7 @@
 <template>
   <div>
-    <haka-menus></haka-menus>
-    <haka-selectors></haka-selectors>
+    <!--<haka-menus></haka-menus>-->
+    <!--<haka-selectors></haka-selectors>-->
     <haka-picture></haka-picture>
   </div>
 </template>

@@ -33,7 +33,7 @@ app.get('/login', function (req, res) {
   var mysql      = require('mysql');
   var connection = mysql.createConnection({
     host     : '114.116.23.135:3306',
-    user     : 'pig',
+    user     : 'kael',
     password : '123456'
   });
   var retStr=''

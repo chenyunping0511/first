@@ -31,7 +31,7 @@
       }
       // mounted: function () {
       //     // GET /someUrl
-      //   this.$http.get('http://localhost:8888/').then(response => {
+      //   this.$http.get('http://localhost:5000/init_dir').then(response => {
       //     console.log(response.data);
       //   // get body data
       //     this.someData = response.body;

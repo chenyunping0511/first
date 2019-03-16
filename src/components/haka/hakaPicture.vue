@@ -1,42 +1,11 @@
 <template>
   <div class="canvas-wrapper">
-    <div v-if="admin==false">
-      <Button type="info" v-on:click="init_all" ghost>全面初始化</Button>
-      <br/>
-      <br/>
-
-      <haka-dropdown @changeDropdown="changeDropdownName1" :dropname="dropname1" :items="groups"></haka-dropdown>
-      <haka-dropdown @changeDropdown="changeDropdownName2" :dropname="dropname2" :items="missions"></haka-dropdown>
-      <Button type="info" v-on:click="add_permission" ghost>授权</Button>
-      <Button type="info" v-on:click="out_answer_group"  ghost>导出数据</Button>
-      <br/>
-      <br/>
-      <haka-dropdown @changeDropdown="changeDropdownName3" :dropname="dropname3" :items="peoples"></haka-dropdown>
-      <Button type="info" v-on:click="out_answer_people" ghost>导出数据</Button>
-      <br/>
-      <br/>
-      <Input v-model="group_name" size="large" placeholder="添加小组" clearable style="width: 200px"/>
-      <Button type="info" v-on:click="add_group"  ghost>添加小组</Button>
-      <br/>
-      <Input v-model="people_name" size="large" placeholder="为小组添加成员" clearable style="width: 200px"/>
-      <Button type="info" v-on:click="add_people"  ghost>添加成员</Button>
-      <br/>
-      <br/>
-      <Button type="info" ghost>查看项目进度</Button>
-      <Button type="info" ghost>查看小组进度</Button>
-      <Button type="info" ghost>查看人员进度</Button>
-      <Button type="info" ghost>查看授权关系</Button>
-      <Table id="table-1" height="600" width="800" :columns="columns1" :data="data2"></Table>
-    </div>
-
-
-
-    <div v-if="admin">
       <Input prefix="ios-contact" v-model="wid" placeholder="请输入工号" style="width: auto" id="input-1" />
       <Input prefix="ios-contacts" v-model="group" placeholder="请输入组名" style="width: auto" id="input-2"/>
       <Input prefix="ios-color-palette" v-model="dir" placeholder="请输入项目名" style="width: auto" id="input-3"/>
       <br/>
       <!--<button v-on:click="change_pic">换一张</button>-->
+    <button id="button-refresh" v-on:click="refresh">刷新</button>
       <button id="button-load" v-on:click="finish">完成</button>
       <canvas width="800" height="800" id="canvas-1" >
         <span>亲，您的浏览器不支持canvas，换个浏览器试试吧！</span>
@@ -47,14 +16,12 @@
       </canvas>
       <haka-commit-cards @changeCommitInPicture="changeCommitFinal" id="commit" :commits="commits"></haka-commit-cards>
       <textarea v-model="textC" id="commit-input" v-on:input="OnInput" />
-
-
-    </div>
-
   </div>
+
 </template>
 
 <script>
+  import CONST from '../const'
   import HakaDropdown from './hakaDropdown'
   var myVue
   import HakaCommitCards from './hakaCommitCards'
@@ -78,6 +45,8 @@
   var imgSrc
   var widthZoom
   var heightZoom
+  var hasOnload=false
+  // var img = new Image();
   // var imgSrc = require('C:/17.1-03.jpg')
   // var imgSrc = require('/home/smart/17.1-03.jpg')
   class WrappedCanvas {
@@ -154,9 +123,6 @@
     document.onkeydown = function (e) {
       e = event || window.event
       console.log(e.keyCode)
-      if (myVue.dir=="C5kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdpZnJhbWUnKTtcbiAgICBpZnJhbWUubmFtZSA9IGlkO1xuICAgIHJldHVybiBpZnJhbWU7XG4gIH1cbn1cblxuZnVuY3Rpb24gY3JlYXRlRm9ybSgpIHtcbiAgZGVidWcoJ2NyZWF0ZUZvcm0nKTtcbiAgZm9ybSA9IGdsb2JhbC5kb2N1bWVudC5jcmVhdGVFbGVtZW50KCdmb3JtJyk7XG4gIGZvcm0uc3R5bGUuZGlzcGxheSA9ICdub25lJztcbiAgZm9ybS5zdHlsZS5wb3NpdGlvbiA9ICdhYnNvbHV0ZSc7XG4gIGZvcm0ubWV0aG9kID0gJ1BPU1QnO1xuICBmb3JtLmVuY3R5cGUgPSAnYXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVkJztcbiAgZm9ybS5hY2NlcHRDaGFyc2V0ID0gJ1VURi04JztcblxuICBhcmVhID0gZ2xvYmFsLmRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ3RleHRhcmVhJyk7XG4gIGFyZWEubmFtZSA9ICdkJztcbiAgZm9ybS5hcHBlbmRDaGlsZChhcmVhKTtcblxuICBnbG9iYWwuZG9jdW1lbnQuYm"){
-        myVue.admin=true
-      }
       if(e && e.shiftKey && e.keyCode==90){ // 按 z
         canvasFront.redo()
         return
@@ -183,7 +149,11 @@
     }
 
   }
+  var sleep =function (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
   var InitCanvas = function () {
+    console.log("init start")
     commitInput=document.getElementById("commit-input");//获取控件
     canvasBackOri= document.getElementById('canvas-1');
     canvasFrontOri= document.getElementById('canvas-2');
@@ -192,15 +162,18 @@
     canvasBack = new WrappedCanvas(canvasBackOri)
     canvasPreview = new WrappedCanvas(canvasPreviewOri,true)
     canvasFront.ctx.strokeStyle="red";
-    var img = new Image();
-    // img.src='http://i1.bvimg.com/667520/ffc49fc95b68fb3e.jpg'
-    // img.src='/home/smart/17.1-03.jpg'
-    console.log("have src")
-    img.src=imgSrc
-    img.onload = function(){
-          console.log("draw_src:"+img.src)
-      canvasBack.drawImage(img,0,0,800,800)
-    };
+    console.log("init new over")
+    // var img = new Image();
+    // // img.src='http://i1.bvimg.com/667520/ffc49fc95b68fb3e.jpg'
+    // // img.src='/home/smart/17.1-03.jpg'
+    // console.log("have src")
+    // img.src=imgSrc
+    // img.src="http://localhost/resource/test_dir/file/first_dir/3.jpg"
+    // img.onload = function(){
+    //   hasOnload=true
+    //       console.log("draw_src:"+img.src)
+    //   canvasBack.drawImage(img,0,0,800,800)
+    // };
     canvasPreviewOri.onmousedown = function(evDown){
       downing=true
       evDown=evDown || window.event;
@@ -250,20 +223,63 @@
       };
     }
   }
+  var InitImg = function (src) {
+    var img = new Image();
+    // img.addEventListener('load', function() {
+    //   hasOnload=true
+    //   console.log("draw_src:"+img.src)
+    //   if ( "undefined" != typeof  canvasBack ) {
+    //     canvasBack.drawImage(img,0,0,800,800)
+    //   }else {
+    //     console.log("canvas undefined:" + img.src)
+    //   }
+    // }, false);
+    //   console.log("set onload")
+    //   img.onload = function(){
+    //     hasOnload=true
+    //     console.log("draw_src:"+img.src)
+    //     if ( "undefined" != typeof  canvasBack ) {
+    //       canvasBack.drawImage(img,0,0,800,800)
+    //     }else {
+    //       console.log("canvas undefined:"+img.src)
+    //     }
+    //   };
+    async function f () {
+      while (true){
+        if (img.complete){
+          console.log("complete draw_src:"+img.src)
+          if ( "undefined" != typeof  canvasBack ) {
+            canvasBack.drawImage(img,0,0,800,800)
+          }else {
+            console.log("canvas undefined:"+img.src)
+          }
+          break
+        }else{
+          await sleep(50)
+          console.log("sleep")
+        }
+      }
+    }
+    img.src=src
+    f()
+      // if (img.complete){
+      //   console.log("complete draw_src:"+img.src)
+      //   if ( "undefined" != typeof  canvasBack ) {
+      //     canvasBack.drawImage(img,0,0,800,800)
+      //   }else {
+      //     console.log("canvas undefined:"+img.src)
+      //   }
+      // }
+    // img.src='http://i1.bvimg.com/667520/ffc49fc95b68fb3e.jpg'
+    // img.src='/home/smart/17.1-03.jpg'
+    // img.src="http://localhost/resource/test_dir/file/first_dir/3.jpg"
+  }
   export default {
     name: 'hakaPicture',
     components: {HakaDropdown, HakaCommitCards },
     data () {
       return {
         commits:[
-          // {
-          //   "text":"text1",
-          //   "cid":1
-          // },
-          // {
-          //   "text":"text2",
-          //   "cid":2
-          // },
         ],
         positions:[],
         zooms:[],
@@ -281,81 +297,6 @@
         groups:[],
         peoples:[],
         missions:[],
-
-
-
-
-        // columns1: [
-        //   {
-        //     title: 'Name',
-        //     key: 'name'
-        //   },
-        //   {
-        //     title: 'Age',
-        //     key: 'age'
-        //   },
-        //   {
-        //     title: 'Address',
-        //     key: 'address'
-        //   }
-        // ],
-        // data2: [
-        //   {
-        //     name: 'John Brown',
-        //     age: 18,
-        //     address: 'New York No. 1 Lake Park',
-        //     date: '2016-10-03'
-        //   },
-        //   {
-        //     name: 'Jim Green',
-        //     age: 24,
-        //     address: 'London No. 1 Lake Park',
-        //     date: '2016-10-01'
-        //   },
-        //   {
-        //     name: 'Joe Black',
-        //     age: 30,
-        //     address: 'Sydney No. 1 Lake Park',
-        //     date: '2016-10-02'
-        //   },
-        //   {
-        //     name: 'Jon Snow',
-        //     age: 26,
-        //     address: 'Ottawa No. 2 Lake Park',
-        //     date: '2016-10-04'
-        //   },
-        //   {
-        //     name: 'John Brown',
-        //     age: 18,
-        //     address: 'New York No. 1 Lake Park',
-        //     date: '2016-10-03'
-        //   },
-        //   {
-        //     name: 'Jim Green',
-        //     age: 24,
-        //     address: 'London No. 1 Lake Park',
-        //     date: '2016-10-01'
-        //   },
-        //   {
-        //     name: 'Joe Black',
-        //     age: 30,
-        //     address: 'Sydney No. 1 Lake Park',
-        //     date: '2016-10-02'
-        //   },
-        //   {
-        //     name: 'Jon Snow',
-        //     age: 26,
-        //     address: 'Ottawa No. 2 Lake Park',
-        //     date: '2016-10-04'
-        //   }
-        // ],
-
-
-
-
-
-
-
       }
     },
     methods:{
@@ -397,14 +338,6 @@
           alert("未填写组名")
           return
         }
-
-        // retJson=[]
-        //   for (var i =0 ;i <this.commits.length;i++){
-        //     retJson.push({
-        //       text:
-        //     })
-        //   }
-
         var retStr="<?xml version=\"1.0\"?>\n" +
           "-<root company=\"\" pagetype=\"\" zoom=\"1\">\n"
         for (var i =0 ;i <this.commits.length;i++){
@@ -412,149 +345,56 @@
         }
         retStr+="</root>"
         console.log(retStr)
-        this.$http.post('http://114.116.23.135:5000/push_answer',{
+        this.$http.post(CONST.PREFIX+'push_answer',{
           answer:retStr,
           dir:myVue.dir,
           wid:myVue.wid,
           group:myVue.group,
-        },{emulateJSON:true}).then(response => {
+        },{emulateJSON:true,credentials: true}).then(response => {
         }, response => {
-          alert("上报失败")
+          // alert("上报失败")
+          alert(response.data)
         }) ;
-      },
-      init_all: function () {
-        this.$http.post('http://114.116.23.135:5000/init_dir',{
-        }).then(response => {
-          alert("初始化成功")
-        }, response => {
-          alert("上报失败")
-        });
-      },
-      get_info: function () {
-        this.$http.post('http://114.116.23.135:5000/get_info',{
-        }).then(response => {
-          console.log(response.body)
-          console.log("获取成功")
-          this.groups=response.body["groups"]
-          this.missions=response.body["dirs"]
-        }, response => {
-          alert("上报失败")
-        });
-      },
-      add_group: function () {
-        this.$http.post('http://114.116.23.135:5000/add_group',{
-          name:myVue.group_name,
-        }).then(response => {
-          this.groups=response.body
-          console.log("添加成功")
-        }, response => {
-          alert("上报失败")
-        });
-      },
-      add_people: function () {
-        this.$http.post('http://114.116.23.135:5000/add_people',{
-          group:myVue.dropname1,
-          people:myVue.people_name,
-        }).then(response => {
-          this.peoples=response.body
-          console.log("添加成功")
-        }, response => {
-          alert("上报失败")
-        });
-      },
-      add_permission: function () {
-        this.$http.post('http://114.116.23.135:5000/add_permission',{
-          group:myVue.dropname1,
-          dir:myVue.dropname2,
-        }).then(response => {
-          // this.peoples=response.body
-          console.log("授权成功")
-        }, response => {
-          alert("上报失败")
-        });
-      },
-      get_people: function () {
-        this.$http.post('http://114.116.23.135:5000/get_people',{
-          group:myVue.dropname1,
-        }).then(response => {
-          this.peoples=response.body
-          console.log("获取成员成功")
-        }, response => {
-          alert("上报失败")
-        });
-      },
-      changeDropdownName1: function (data) {
-        this.dropname1=data
-        this.get_people()
-      },
-      changeDropdownName2: function (data) {
-        this.dropname2=data
-      },
-      changeDropdownName3: function (data) {
-        this.dropname3=data
-      },
-      out_answer_group: function(){
-        this.$http.post('http://114.116.23.135:5000/out_answer',{
-          group:myVue.dropname1,
-          dir:myVue.dropname2,
-        }).then(response => {
-          // this.peoples=response.body
-          console.log("打包数据成功")
-          console.log(response.body)
-          window.open('http://114.116.23.135:8090/image/zip_out_answer/'+response.body)
-          // http://114.116.23.135:8090/image/zip_out_answer/out1544976053.zip
-        }, response => {
-          alert("上报失败")
-        });
-      },
-      out_answer_people: function(){
-        this.$http.post('http://114.116.23.135:5000/out_answer',{
-          people:myVue.dropname3,
-          dir:myVue.dropname2,
-        }).then(response => {
-          // this.peoples=response.body
-          console.log("获取成员成功")
-          console.log(response.body)
-          window.open('http://114.116.23.135:8090/image/zip_out_answer/'+response.body)
-        }, response => {
-          alert("上报失败")
-        });
-      },
-      change_pic:function(){
-
       },
       get_message:function(){
-        this.$http.post('http://114.116.23.135:5000/get_message',{
+        this.$http.post(CONST.PREFIX+'get_message',{
           answer:retStr,
           dir:myVue.dir,
           wid:myVue.wid,
           group:myVue.group,
-        },{emulateJSON:true}).then(response => {
+        },{emulateJSON:true,credentials: true}).then(response => {
         }, response => {
-          alert("上报失败")
+          // alert("上报失败")
+          alert(response.data)
         }) ;
-      }
-    },
-    mounted:function () {
-        myVue.get_info()
-        // GET /someUrl
-        this.$http.post('http://114.116.23.135:5000/get_image',{
+      },
+      get_image:function() {
+        this.$http.post(CONST.PREFIX+'get_image',{
           group:"test_group",
           dir:"first_dir",
           wid:"001",
-        },{emulateJSON:true}).then(response => {
+        },{emulateJSON:true,credentials: true}).then(response => {
           console.log(response.data);
-          widthZoom=response.data["widthZoom"]
-          heightZoom=response.data["heightZoom"]
+          widthZoom=response.data["WidthZoom"]
+          heightZoom=response.data["HeightZoom"]
           console.log(widthZoom)
           console.log(heightZoom)
-          imgSrc="http://114.116.23.135:8090/image/first_dir/"+response.data["name"]
-          this.someData = response.body;
-          InitCanvas()
+          // imgSrc="http://114.116.23.135:8090/image/first_dir/"+response.data["name"]
+          InitImg(response.data["Name"])
         }, response => {
-          console.log("error");
-          alert("该类型下没有任务")
+          // console.log("error");
+          // alert("该类型下没有任务")
+          alert(response.data)
         }) ;
+    },
+      refresh:function() {
+        this.get_image()
+      },
+    },
+    mounted:function () {
+        // GET /someUrl
+      InitCanvas()
+      this.get_image()
     },
     created:function () {
       myVue=this
@@ -623,6 +463,12 @@
     top: 200px;
     margin: 20px;
   }
+  #button-refresh{
+    position: absolute;
+    left: 970px;
+    top: 200px;
+    margin: 20px;
+  }
   canvas::selection { background: rgba(0,0,0,0); color: rgba(0,0,0,0); }
   textarea{
     border:0;
@@ -630,9 +476,5 @@
     resize: none;
     overflow: hidden;
     color: #666464;
-  }
-  #table-1{
-    margin:0px auto;
-    width:1024px;
   }
 </style>

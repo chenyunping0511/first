@@ -1,13 +1,14 @@
 <template>
     <div>
-        <img src="../../assets/head.png">
+
         <!--<a>注册&nbsp;&nbsp;</a>-->
         <!--<a>登录 &nbsp;&nbsp;</a></div>-->
-        <br/>
-      <br/>
       <Row>
         <Col>
           <Menu mode="horizontal" active-name="1">
+             <MenuItem name="">
+              <img src="../../assets/logo.png" style="height:140px">
+            </MenuItem>
             <!--<MenuItem to="/"  name="main">-->
               <MenuItem @click.native="changeMod('main')"  name="main">
               <Icon type="ios-infinite" size="20" />
@@ -38,7 +39,7 @@
                 <Icon type="md-analytics" size="20" />
                 综合设置
               </template>
-              <MenuItem name="4-1">个人主页</MenuItem>
+              <MenuItem name="4-1" @click.native="changeMod('personal')">个人主页</MenuItem>
               <MenuItem name="4-2" @click.native="changeMod('login')" >注册/登录</MenuItem>
               <!--<MenuItem name="3-4">用户留存</MenuItem>-->
               <!--<MenuItem name="3-5">流失用户</MenuItem>-->
@@ -55,6 +56,7 @@
 
 <script>
   export default {
+    mode:history,
     name: 'hakaMenus',
     props:['mod'],
     methods:{
@@ -66,6 +68,7 @@
 </script>
 
 <style scoped>
+@import '../../assets/css/indexMenus.css';
   /*div{ display:inline;}*/
   a{ float:right;}
 </style>

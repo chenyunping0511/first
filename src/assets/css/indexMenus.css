@@ -1,0 +1,20 @@
+.ivu-menu-light {
+  /* rgb(215, 233, 240) */
+    background: #99CC99 !important;
+}
+/* .ivu-menu-horizontal .ivu-menu-submenu {
+  width: 16%;
+} */
+.ivu-menu-horizontal .ivu-menu-item, .ivu-menu-horizontal .ivu-menu-submenu {
+  display: flex;
+  align-items: center;
+  width: 14%;
+}
+.ivu-menu-horizontal {
+  height:75px;
+  line-height: 75px;
+}
+.ivu-menu-horizontal .ivu-menu-item, .ivu-menu-horizontal .ivu-menu-submenu {
+  font-size: 20px;
+}
+

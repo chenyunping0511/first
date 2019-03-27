@@ -3,6 +3,11 @@
     <Button type="info" v-on:click="init_all" ghost>全面初始化</Button>
     <br/>
     <br/>
+    <!--<Upload action="//127.0.0.1:5000/web/api/upload">-->
+      <!--<Button icon="ios-cloud-upload-outline">Upload files</Button>-->
+    <!--</Upload>-->
+    <!--<br/>-->
+    <!--<br/>-->
 
     <haka-dropdown @changeDropdown="changeDropdownName1" :dropname="dropname1" :items="groups"></haka-dropdown>
     <haka-dropdown @changeDropdown="changeDropdownName2" :dropname="dropname2" :items="missions"></haka-dropdown>

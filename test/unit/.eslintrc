@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "env": { 
     "jest": true
@@ -5,3 +6,12 @@
   "globals": { 
   }
 }
+=======
+{
+  "env": { 
+    "jest": true
+  },
+  "globals": { 
+  }
+}
+>>>>>>> 25b3fdb202512b148d8c95b8eeabfa058ccf8609

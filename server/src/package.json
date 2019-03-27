@@ -1,13 +1,5 @@
-<<<<<<< HEAD
 {
   "devDependencies": {
     "mysql": "^2.16.0"
   }
 }
-=======
-{
-  "devDependencies": {
-    "mysql": "^2.16.0"
-  }
-}
->>>>>>> 25b3fdb202512b148d8c95b8eeabfa058ccf8609

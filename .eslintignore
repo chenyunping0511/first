@@ -1,15 +1,6 @@
-<<<<<<< HEAD
 /build/
 /config/
 /dist/
 /*.js
 /test/unit/coverage/
 src/*
-=======
-/build/
-/config/
-/dist/
-/*.js
-/test/unit/coverage/
-src/*
->>>>>>> 25b3fdb202512b148d8c95b8eeabfa058ccf8609

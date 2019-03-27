@@ -1,10 +1,6 @@
 .ivu-menu-light {
   /* rgb(215, 233, 240) */
-<<<<<<< HEAD
     /* background: rgb(248, 65, 19) !important; */
-=======
-    background: #99CC99 !important;
->>>>>>> 25b3fdb202512b148d8c95b8eeabfa058ccf8609
 }
 /* .ivu-menu-horizontal .ivu-menu-submenu {
   width: 16%;
@@ -20,7 +16,6 @@
 }
 .ivu-menu-horizontal .ivu-menu-item, .ivu-menu-horizontal .ivu-menu-submenu {
   font-size: 20px;
-<<<<<<< HEAD
   color: #f31c1c!important;
 }
 .ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu) {
@@ -43,7 +38,3 @@
   line-height: 30px;
   border: 1px solid gray;
 }
-=======
-}
-
->>>>>>> 25b3fdb202512b148d8c95b8eeabfa058ccf8609

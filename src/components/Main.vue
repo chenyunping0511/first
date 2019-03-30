@@ -5,7 +5,12 @@
     <div id="content">
         <nav class="conNav">
           <div class="item">
-            <div class="pic"><img src="../assets/logo.png" class="log"></div>
+            <div class="pic">
+              <router-link to="/">
+              <img src="../assets/logo.png" class="log">
+              </router-link>
+            </div>
+               
             <!-- <div >
               <Icon type="person-add" size="30"></Icon>
               注册
@@ -43,6 +48,9 @@
                 <div v-else-if="mod === 'personal'">
                   <personal></personal>
                 </div>
+                <div v-else-if="mod === 'website'">
+                  <website></website>
+                </div>
                 <div v-else-if="mod !='login'">
                    <haka-login></haka-login>
                 </div>
@@ -64,13 +72,15 @@
     import ReginPesorn from './haka/ReginPesorn'
     import Marked from './haka/Marked'
     import Personal from './haka/Personal'
+    import Website from './haka/Website'
     export default {
       name: "Main",
       components: {HakaABC, HakaLogin, HakaCard, HakaPicture, HakaSelectors, HakaMenus, 
       "Comfrim":ConfirmRegistration, 
       "regin":ReginPesorn,
       "marked":Marked,
-      "personal":Personal},
+      "personal":Personal,
+      "website":Website},
       data () {
         return {
           items: [

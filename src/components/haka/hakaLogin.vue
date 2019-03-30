@@ -17,7 +17,7 @@
                 <span  class="forget">忘记密码？</span>
               </p>
               <p class="btn-login">
-                <Button type="success" v-on:click="send_login">登录</Button><br/><br/>
+                <Button type="success"  @click.native="changeMod('website')"  name="website">登录</Button><br/><br/>
                 <span class="regin-now">还没有账号？</span><span  class="forget "  @click.native="changeMod('regin')"  name="regin" >立即注册</span>
                 <!-- v-on:click="send_register"  -->
               </p>

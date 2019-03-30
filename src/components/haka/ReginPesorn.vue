@@ -38,14 +38,14 @@
           </li>
         </ul>
         <div>
-          <router-link to="/Login">
+          <div  @click.native="changeMod('login')" name="1">
             <button class="btn-login">登录
               <span class="have-login">[已有账号]</span>
             </button>
-          </router-link>
-          <router-link to="/Login">
+          </div>
+          <div @click.native="changeMod('login')" name="1">
             <button class="btn-login">确认注册</button>
-          </router-link>
+          </div>
         </div>
       </div>
     </div>

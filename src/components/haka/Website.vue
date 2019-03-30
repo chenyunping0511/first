@@ -6,7 +6,9 @@
 		</div><!--nav-->
 		<div class="backgrond_img">
 			<img src="../../assets/logo.png" class="logo_word" />
+			<router-link to="./../Main">
 			<span class="login-regin">登录/注册</span>
+		  </router-link>
 		</div>
 		
 	</div><!--top结束-->

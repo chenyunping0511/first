@@ -38,6 +38,10 @@ exports.cssLoaders = function (options) {
   function generateLoaders (loader, loaderOptions) {
     const loaders = options.usePostCSS ? [cssLoader, postcssLoader,px2remLoader] : [cssLoader]
 
+    if (options.usePostCSS) {
+      loaders.push(postcssLoader)
+    }
+
     if (loader) {
       loaders.push({
         loader: loader + '-loader',
@@ -52,7 +56,9 @@ exports.cssLoaders = function (options) {
     if (options.extract) {
       return ExtractTextPlugin.extract({
         use: loaders,
-        fallback: 'vue-style-loader'
+        fallback: 'vue-style-loader',
+        publicPath: '../../' 
+        //打包之后把这里修改成../../原先是../
       })
     } else {
       return ['vue-style-loader'].concat(loaders)

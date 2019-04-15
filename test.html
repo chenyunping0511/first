@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src=”http://code.jquery.com/jquery-2.1.1.min.js”></script>
+    <script src=”http://ajax.aspnetcdn.com/ajax/jquery/jquery-2.0.0.min.js”></script>
+    <script src=”http://libs.baidu.com/jquery/1.11.1/jquery.min.js”></script>
+    <title>Document</title>
+    <style>
+         *{
+            margin:0;
+            padding:0;
+        }
+        .test{
+            margin:900px auto 500px;
+            width:800px;
+            height:600px;
+            position: relative;
+            background-color: #00ac61;
+        }
+        .target{
+            position: absolute;
+            left:200px;
+            width:400px;
+            height:300px;
+            opacity: 0;
+            background-color: palevioletred;
+        }
+    </style>
+</head>
+<body>
+    <div class="test">
+        <div class="target">
+            test test test 
+        </div>
+    </div>
+    <script>
+        $(function(){
+            var targetHeight = $(".test").offset().top;
+ 
+            $(window).scroll(function(){
+                 slideIn($(".target"),150);
+            });
+ 
+           function slideIn(obj,left){
+               var targetHeight = obj.offset().top;
+               var scrollTop = $(this).scrollTop();
+               if(scrollTop>targetHeight-400){
+                    obj.animate({left:left+'px',opacity:1,filter:'Alpha(opacity=90)'},500);
+               }
+            };
+ 
+        });
+    </script>
+</body>
+</html>

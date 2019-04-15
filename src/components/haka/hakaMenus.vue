@@ -31,7 +31,7 @@
             <MenuItem @click.native="changeMod('abc')" name="6">
                   <Icon type="md-people" size="30" />
                   管理页
-                  </MenuItem>
+            </MenuItem>
         </Menu>
       </div>
     </div>
@@ -40,7 +40,7 @@
 
 <script>
   export default {
-    mode:history,
+    // mode:history,
     name: 'hakaMenus',
     props:['mod'],
     methods:{

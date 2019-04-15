@@ -1,4 +1,5 @@
 'use strict'
+const webpack = require('webpack')
 const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
@@ -22,7 +23,9 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    app: './src/main.js',
+    "babel-polyfill":"babel-polyfill",
+     app: ['./node_modules/babel-polyfill/dist/polyfill.js','./src/main.js']
   },
   output: {
     path: config.build.assetsRoot,
@@ -49,7 +52,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        include: [resolve('src'), resolve('test'),resolve('static'),resolve('node_modules/webpack-dev-server/client')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -88,5 +91,13 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  }
+  },
+  plugins: [ 
+    new webpack.optimize.CommonsChunkPlugin('common.js'),
+    new webpack.ProvidePlugin({
+      jQuery: "jquery",
+      $: "jquery" 
+    }) 
+  ]
+
 }

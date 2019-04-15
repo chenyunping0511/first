@@ -3,11 +3,17 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import iView from 'iview';
+// import ("babel-polyfill")
+import 'babel-polyfill'
+import iView from 'iview'
 import locale from 'iview/dist/locale/en-US';
 import 'iview/dist/styles/iview.css'
 import 'lib-flexible'
+import 'lib-flexible/flexible'
 import VueResource from 'vue-resource'
+import 'jquery'
+import Swiper from 'swiper'
+import 'swiper/dist/css/swiper.css'
 // import regin from './components/haka/ReginPesorn'
 
 Vue.config.productionTip = false

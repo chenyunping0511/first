@@ -4,10 +4,13 @@ import main from '../components/Main'
 import customPicture from '../components/pages/CustomPicture'
 import ComfirmRegistration from '../components/haka/ConfirmRegistration'
 import Website from '../components/haka/Website'
+import Service from '../components/haka/Service'
 
 Vue.use(Router)
 
 export default new Router({
+  // mode: 'history',//去掉#，
+  base: '/yiTownWebApp/',//这个配置也很重要，否则会出现页面空白情况
   routes: [
     {
       path: '/',
@@ -21,6 +24,10 @@ export default new Router({
     {
       path: '/main',
       component: main
+    },
+    {
+      path: '/Service',
+      component: Service
     }
     // {
     //   path: '/customPicture',
@@ -28,5 +35,5 @@ export default new Router({
     //   component: customPicture
     // },
   ],
-  mode: 'history'
+  // mode: 'history'
 })

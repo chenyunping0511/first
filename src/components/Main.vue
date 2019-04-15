@@ -51,6 +51,9 @@
                 <div v-else-if="mod === 'website'">
                   <website></website>
                 </div>
+                <div v-else-if="mod === 'service'">
+                  <service></service>
+                </div>
                 <div v-else-if="mod !='login'">
                    <haka-login></haka-login>
                 </div>
@@ -73,6 +76,7 @@
     import Marked from './haka/Marked'
     import Personal from './haka/Personal'
     import Website from './haka/Website'
+    import Service from './haka/Service'
     export default {
       name: "Main",
       components: {HakaABC, HakaLogin, HakaCard, HakaPicture, HakaSelectors, HakaMenus, 
@@ -80,7 +84,8 @@
       "regin":ReginPesorn,
       "marked":Marked,
       "personal":Personal,
-      "website":Website},
+      "website":Website,
+      "service":Service},
       data () {
         return {
           items: [
